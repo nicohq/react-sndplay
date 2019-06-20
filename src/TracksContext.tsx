@@ -12,7 +12,8 @@ interface TracksState {
     onPrevTrack: () => void
 }
 
-const {Provider, Consumer} = React.createContext<Partial<TracksState>>({});
+let TracksContext: React.Context<Partial<TracksState>>;
+const {Provider, Consumer} = TracksContext = React.createContext<Partial<TracksState>>({});
 
 class TracksProvider extends React.Component<{}, TracksState> {
 
@@ -75,5 +76,5 @@ class TracksProvider extends React.Component<{}, TracksState> {
     } 
 }
 
-export { TracksProvider, Consumer as TracksConsumer };
+export { TracksProvider, Consumer as TracksConsumer, TracksContext };
 

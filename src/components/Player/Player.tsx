@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React, { SFC } from 'react';
+import React, { Fragment, SFC } from 'react';
 import { addUrlClientParams } from '../../api';
 import { Track as TrackModel } from '../../track.model';
 import PlayerControls from './PlayerControls';
@@ -88,47 +88,49 @@ class Player extends React.Component<PlayerProps, PlayerState> {
         this.audio.play();
     };
 
+    renderPlayerInfo = () => {
+        const { artwork_url, title, label_name, user } = this.props.track;
+        return this.state.loaded &&
+            <PlayerInfo
+                duration={this.audio!.duration}
+                current={this.audio!.currentTime}
+                onVolumeUp={this.volumeUp}
+                onVolumeDown={this.volumeDown}
+                image={artwork_url || user.avatar_url}
+                title={title}
+                label_name={label_name || user.username} />
+    }
+
+    renderProgress = () => {
+        return this.state.loaded &&
+            <PlayerProgress
+                handleUpdate={this.setTime}
+                duration={this.audio.duration}
+                currentTime={this.audio.currentTime} />
+    }
+
+
     render() {
-        if (this.props.track) {
-            const {stream_url, artwork_url, title, label_name, user} = this.props.track;
-            return (
-                <React.Fragment>
-                    <audio
-                        src={addUrlClientParams(stream_url)}
-                        onTimeUpdate={this.handleTimeUpdate}
-                        onLoadedData={this.handleAudioLoaded}
-                        onEnded={this.props.onNext}
-                        ref={(n: HTMLAudioElement) => (this.audio = n)}
-                    />
-                    <Container>
-                        { this.state.loaded && 
-                            <PlayerInfo
-                                duration={this.audio!.duration}
-                                current={this.audio!.currentTime}
-                                onVolumeUp={this.volumeUp}
-                                onVolumeDown={this.volumeDown}
-                                image={artwork_url || user.avatar_url }
-                                title={title}
-                                label_name={label_name || user.username } />
-                        }
-                        <PlayerControls
-                            playing={this.state.isPlaying}
-                            onPause={this.pause}
-                            onPlay={this.play}
-                            onNext={this.props.onNext}
-                            onPrev={this.props.onPrev}/>
-                        { this.state.loaded && 
-                        <PlayerProgress 
-                            handleUpdate={this.setTime}
-                            duration={this.audio.duration}
-                            currentTime={this.audio.currentTime}/>
-                        }
-                    </Container>
-                </React.Fragment>
-            )
-        } else {
-            return null;
-        }
+        return this.props.track &&
+            <Fragment>
+                <audio
+                    src={addUrlClientParams(this.props.track.stream_url)}
+                    onTimeUpdate={this.handleTimeUpdate}
+                    onLoadedData={this.handleAudioLoaded}
+                    onEnded={this.props.onNext}
+                    ref={(n: HTMLAudioElement) => (this.audio = n)}
+                />
+                <Container>
+                    {this.renderPlayerInfo()}
+                    <PlayerControls
+                        playing={this.state.isPlaying}
+                        onPause={this.pause}
+                        onPlay={this.play}
+                        onNext={this.props.onNext}
+                        onPrev={this.props.onPrev} />
+                    {this.renderProgress()}
+                </Container>
+            </Fragment>
     }
 }
 
