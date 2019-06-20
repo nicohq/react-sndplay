@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { SFC } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import MainPage from './MainPage';
 import * as serviceWorker from './serviceWorker';
+import { TracksProvider } from './TracksContext';
+
+const App: SFC = () =>
+    <TracksProvider>
+        <MainPage />
+    </TracksProvider>;
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
