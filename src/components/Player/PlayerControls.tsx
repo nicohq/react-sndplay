@@ -23,10 +23,10 @@ interface ControlsProps {
     onPrev: () => void;
 }
 
-const PlayerControls: SFC<ControlsProps> = ({playing, onPlay, onPause, onNext}) => {
+const PlayerControls: SFC<ControlsProps> = ({playing, onPlay, onPause, onNext, onPrev}) => {
     return (
         <Controls>
-            <IcoButton onClick={onNext}>
+            <IcoButton onClick={onPrev}>
                 <Prev size={30} />
             </IcoButton>
             <IcoButton onClick={playing ? onPause : onPlay}>

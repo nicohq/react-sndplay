@@ -49,12 +49,14 @@ class TracksProvider extends React.Component<{}, TracksState> {
     handleNextTrack = () => {
         const {tracks} = this.state;
         const {nextIdx} = this.getNextPrevCurrIdx();
+        console.log(nextIdx);
         this.handleSelectTrack(tracks[nextIdx as number]);
     }
 
     handlePrevTrack = () => {
         const {tracks} = this.state;
         const {prevIdx} = this.getNextPrevCurrIdx();
+        console.log(prevIdx);
         this.handleSelectTrack(tracks[prevIdx as number]);
     }
 
@@ -70,8 +72,7 @@ class TracksProvider extends React.Component<{}, TracksState> {
 
     render() {
         return <Provider value={{
-            ...this.state,
-            onSelectTrack: this.handleSelectTrack
+            ...this.state
         }}>{this.props.children}</Provider>
     } 
 }
