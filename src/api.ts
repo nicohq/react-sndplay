@@ -1,6 +1,6 @@
 import { Track } from './track.model';
 const API_URL = 'https://api.soundcloud.com';
-const CLIENT_ID = 'KJMNWGMczDAEDm2ezWCbt5kCYZzcr92P';
+const CLIENT_ID = 'a281614d7f34dc30b665dfcaa3ed7505';
 const USER_ID = '146150487';
 
 function api<T>(url: string): Promise<T> {
